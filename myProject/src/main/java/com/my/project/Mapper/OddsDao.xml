@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间特殊作用： 如果使用mapper动态代理方法，这里就需要配置mapper接口地址-->
+
+<mapper namespace="com.my.project.Mapper.OddsDao">
+	<update id="createTable" parameterType="map">
+		CREATE TABLE t_${cid}_odds (
+ 	 fjcid VARCHAR(40) NOT NULL,
+ 	 win DECIMAL(4,2) NOT NULL,
+  	draw DECIMAL(4,2) NOT NULL,
+ 	 lose DECIMAL(4,2) NOT NULL,
+  	PRIMARY KEY (fjcid)
+	) ENGINE=INNODB DEFAULT CHARSET=utf8;
+	</update>
+	<insert id="saveCp" parameterType="com.my.project.entity.CsOdds">
+		insert into t_${fid}_c_odds (fjcid,win,draw,lose) values (#{fjcid},#{win},#{draw},#{lose})
+	</insert>
+	<insert id="saveZp" parameterType="com.my.project.entity.CsOdds">
+		insert into t_${fid}_j_odds (fjcid,win,draw,lose) values (#{fjcid},#{win},#{draw},#{lose})
+	</insert>
+	<insert id="saveRqJcsp" parameterType="com.my.project.entity.CsOdds">
+		insert  into t_10000_j_rodds (fjcid,win,draw,lose) values (#{fjcid},#{win},#{draw},#{lose})
+	</insert>
+	<delete id="deleteRqJcsp" parameterType="com.my.project.entity.CsOdds" >
+		delete from t_10000_j_rodds where fjcid =#{fjcid}
+	</delete>
+	<delete id="deleteZp" parameterType="com.my.project.entity.CsOdds" >
+		delete from t_${fid}_j_odds where fjcid =#{fjcid}
+	</delete>
+	
+</mapper>

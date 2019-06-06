@@ -1,0 +1,9 @@
+server:
+  port: 8076
+logging:
+  path: /user/local/log
+  level:
+    com: error
+    org:
+      springframework: error
+      mybatis: error

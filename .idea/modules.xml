@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/demo/demo.iml" filepath="$PROJECT_DIR$/demo/demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/football-odds-task/football-odds-task.iml" filepath="$PROJECT_DIR$/football-odds-task/football-odds-task.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/idea.iml" filepath="$PROJECT_DIR$/.idea/idea.iml" />
+      <module fileurl="file://$USER_HOME$/Desktop/检验申请接口/receive/lisinterface.iml" filepath="$USER_HOME$/Desktop/检验申请接口/receive/lisinterface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/myProject/myProject.iml" filepath="$PROJECT_DIR$/myProject/myProject.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间特殊作用： 如果使用mapper动态代理方法，这里就需要配置mapper接口地址-->
+
+<mapper namespace="com.my.project.Mapper.UserDao">
+	<select id="getUser" parameterType="com.my.project.entity.UserBean"  resultType="com.my.project.entity.UserBean" >
+		select * from user_t where username =#{username}
+	</select>
+	<insert id="saveUserBean" parameterType="com.my.project.entity.UserBean" >
+		insert into user_t (userid,username,passward)values(#{userid},#{username},#{passward})
+	</insert>
+	<select id="getUserId"  resultType="int" >
+		select max(userid) from user_t
+	</select>
+</mapper>

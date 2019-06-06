@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间特殊作用： 如果使用mapper动态代理方法，这里就需要配置mapper接口地址-->
+
+<mapper namespace="com.my.project.Mapper.BsxxDao">
+	<!--通过竞彩id查询各个公司开出的赔率-->
+	<select id="getROddsJpById" parameterType="map" resultType="map">
+		SELECT a.*,b.frq FROM t_10000_j_rodds a LEFT JOIN t_jcbs b ON a.fjcid = b.fjcid  WHERE a.fjcid=#{fjcid}
+	</select>
+	<!--查询竞彩初赔-->
+	<select id="getROddsJpRes" parameterType="map" resultType="map">
+		SELECT a.*,b.fres,b.frqres,b.flsmc,b.frq
+		FROM t_10000_j_rodds a
+		LEFT JOIN t_jcbs b
+		ON a.fjcid = b.fjcid
+		WHERE b.frq=#{frq}
+		<if test='checkedWin!=null and checkedWin=="true"'>
+			and a.lose=#{lose}
+		</if>
+		<if test='checkedDraw!=null and checkedDraw=="true"'>
+			and a.draw=#{draw}
+		</if>
+		<if test='checkedLose!=null and checkedLose=="true"'>
+			and a.win=#{win}
+		</if>
+		ORDER BY
+		<if test='checkedTime!=null and checkedTime=="true"'>
+			a.fjcid
+		</if>
+		<if test='checkedTime!=null and checkedTime=="false"'>
+			b.flsmc,a.fjcid
+		</if>
+	</select>
+	<!--通过竞彩id查询各个公司开出的赔率-->
+	<select id="getOddsJpById" parameterType="map" resultType="map">
+		SELECT a.*,b.frq FROM t_10000_j_odds a LEFT JOIN t_jcbs b ON a.fjcid = b.fjcid  WHERE a.fjcid=#{fjcid}
+	</select>
+	<!--查询竞彩初赔-->
+	<select id="getOddsJpRes" parameterType="map" resultType="map">
+		SELECT a.*,b.fres,b.frqres,b.flsmc,b.frq,c.win rwin ,c.draw rdraw,c.lose rlose
+		FROM t_10000_j_odds a
+		left join t_10000_j_rodds c
+		on a.fjcid = c.fjcid
+		LEFT JOIN t_jcbs b
+		ON a.fjcid = b.fjcid
+		WHERE b.frq=#{frq}
+		<if test='checkedWin!=null and checkedWin=="true"'>
+			and a.win=#{win}
+		</if>
+		<if test='checkedDraw!=null and checkedDraw=="true"'>
+			and a.draw=#{draw}
+		</if>
+		<if test='checkedLose!=null and checkedLose=="true"'>
+			and a.lose=#{lose}
+		</if>
+		ORDER BY
+		<if test='checkedTime!=null and checkedTime=="true"'>
+			a.fjcid
+		</if>
+		<if test='checkedTime!=null and checkedTime=="false"'>
+			b.flsmc,a.fjcid
+		</if>
+	</select>
+	<select id="getOddsCpById" parameterType="map" resultType="map">
+		SELECT a.*,b.frq FROM t_10000_c_odds a LEFT JOIN t_jcbs b ON a.fjcid = b.fjcid  WHERE a.fjcid=#{fjcid}
+	</select>
+	<!--查询竞彩初赔-->
+	<select id="getOddsCpRes" parameterType="map" resultType="map">
+		SELECT a.*,b.fres,b.frqres,b.flsmc,b.frq,c.win jwin ,c.draw jdraw,c.lose jlose
+		FROM t_10000_c_odds a
+		left join t_10000_j_odds c
+		on a.fjcid = c.fjcid
+	  	LEFT JOIN t_jcbs b
+		ON a.fjcid = b.fjcid
+		WHERE b.frq=#{frq}
+		<if test='checkedWin!=null and checkedWin=="true"'>
+			and a.win=#{win}
+		</if>
+		<if test='checkedDraw!=null and checkedDraw=="true"'>
+			and a.draw=#{draw}
+		</if>
+		<if test='checkedLose!=null and checkedLose=="true"'>
+			and a.lose=#{lose}
+		</if>
+		  ORDER BY
+		<if test='checkedTime!=null and checkedTime=="true"'>
+			a.fjcid
+		</if>
+		<if test='checkedTime!=null and checkedTime=="false"'>
+			b.flsmc,a.fjcid
+		</if>
+	</select>
+
+
+	<insert id="saveBsxxList" parameterType="java.util.List">
+		insert into t_jcbs
+		(fjcid,flsid,fzdid,fkdid,fjcjzsj,fbssj,fzdjq,fkdjq,frq,fres,frqres,fzdmc,fkdmc,flsmc,fid,fxq)
+		values
+		<foreach collection="list" item="item" index="index" separator="," > 
+		(#{item.fjcid},#{item.flsid},#{item.fzdid},#{item.fkdid},#{item.fjcjzsj},#{item.fbssj}
+		,#{item.fzdjq},#{item.fkdjq},#{item.frq},#{item.fres},#{item.frqres},#{item.fzdmc},#{item.fkdmc},#{item.flsmc},#{item.fid},#{item.fxq})
+		</foreach>
+	</insert>
+	<delete id="deleteBsxx" parameterType="com.my.project.entity.BsxxBean">
+		delete from t_jcbs where fjcid =#{fjcid}
+	</delete>
+	<insert id="saveBsxx" parameterType="com.my.project.entity.BsxxBean">
+		insert into t_jcbs
+		(fjcid,flsid,fzdid,fkdid,fjcjzsj,fbssj,fzdjq,fkdjq,frq,fres,frqres,fzdmc,fkdmc,flsmc,fid,fxq)
+		values
+		(#{fjcid},#{flsid},#{fzdid},#{fkdid},#{fjcjzsj},#{fbssj}
+		,#{fzdjq},#{fkdjq},#{frq},#{fres},#{frqres},#{fzdmc},#{fkdmc},#{flsmc},#{fid},#{fxq})
+	</insert>
+	<select id="selectJcBs" resultType="map" parameterType="map">
+		select a.fjcid,a.flsmc,a.fzdmc,a.fkdmc,a.fres,a.frqres,c.win win,c.draw draw,a.frq,a.fid
+		c.lose lose,b.win rwin,b.draw rdraw,b.lose rlose
+		from t_jcbs a left join t_10000_j_rodds b on a.fjcid = b.fjcid
+		left join t_10000_j_odds c on a.fjcid = c.fjcid
+		where a.fjcjzsj=#{dateStr}
+	</select>
+	<select id="selectJcfid" resultType="map" parameterType="map">
+		select a.fjcid,a.fid
+		from t_jcbs a
+		where a.fjcjzsj=#{dateStr}
+	</select>
+</mapper>
